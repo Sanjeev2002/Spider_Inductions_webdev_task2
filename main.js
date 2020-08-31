@@ -1,3 +1,47 @@
+let seconds = 60;
+let displaySeconds = 0;
+let interval = null;
+let status = "stopped";
+function stopWatch(){
+
+    seconds--;
+    if(seconds < 10){
+        displaySeconds = "0" + seconds.toString();
+    }
+    else{
+        displaySeconds = seconds;
+    }
+
+    document.getElementById("display").innerHTML = "Time:" + displaySeconds;
+if(displaySeconds=="00")
+{
+    showScores();
+
+}
+}
+
+
+
+function startStop(){
+
+    if(status === "stopped"){
+
+       
+        interval = window.setInterval(stopWatch, 1000);
+       
+        status = "started";
+
+    }
+    else{
+
+        window.clearInterval(interval);
+       
+        status = "stopped";
+
+    }
+
+}
+
 function Question(text, choices, answer){
     this.text=text;
     this.choices=choices;
@@ -81,10 +125,10 @@ function showScores() {
     var wrong=10-correct;
     finalscore=(correct*4)-(wrong*2);
     if(finalscore>=40){
-    gameOverHTML += "<h2 id='score'>" + "Your score is " + "40" +  "</h2>";
+    gameOverHTML += "<h2 id='score'>" + name + ", Your score is " + "40" +  "</h2>";
     }
     else{
-        gameOverHTML += "<h2 id='score'>" + "Your score is " + finalscore + "</h2>";  
+        gameOverHTML += "<h2 id='score'>" + name + ", Your score is " + finalscore + "</h2>";  
     }
     var element = document.getElementById("quiz");
     element.innerHTML = gameOverHTML;
@@ -107,7 +151,11 @@ var questions = [
 
 // create quiz
 var quiz = new Quiz(questions);
-
+var name=prompt("Enter your name:");
+if(name==""){
+    var name=prompt("Please Enter your name:")
+}
+startStop();
 move();
 var next=document.getElementById('next');
 next.onclick=function()
